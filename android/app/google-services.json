@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "601203813341",
+    "project_id": "portfolio-richi",
+    "storage_bucket": "portfolio-richi.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:601203813341:android:3913d5479ec41386bf2434",
+        "android_client_info": {
+          "package_name": "com.example.portfolio_v2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAH8ICrZPNlQ8C-hzdrhEQWOm7U95NgUw4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
