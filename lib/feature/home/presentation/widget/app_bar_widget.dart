@@ -4,22 +4,14 @@ import 'package:portfolio_v2/core/micro_functions/lauch_url.dart';
 import 'package:portfolio_v2/core/theme/colors.dart';
 import 'package:portfolio_v2/feature/home/presentation/blocs/bio_bloc/bloc/bio_bloc.dart';
 
-Widget pdfViewer() {
-  return HtmlElementView(viewType: 'pdf-viewer');
-}
-
-class AppBarWidget extends StatefulWidget {
+class AppBarWidget extends StatelessWidget {
   const AppBarWidget({super.key, required this.onNavigatedSelected});
 
   final Function(String) onNavigatedSelected;
   @override
-  State<AppBarWidget> createState() => _AppBarWidgetState();
-}
-
-class _AppBarWidgetState extends State<AppBarWidget> {
-  @override
   Widget build(BuildContext context) {
     ValueNotifier<bool> isHovered = ValueNotifier<bool>(false);
+    final isMobile = MediaQuery.of(context).size.width < 800;
     return BlocBuilder<BioBloc, BioState>(
       builder: (context, state) {
         if (state is BioLoaded) {
@@ -27,7 +19,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
             toolbarHeight: 80,
             title: RichText(
               text: TextSpan(
-                text: 'RISHIKESH',
+                text: isMobile ? 'R' : 'RISHIKESH',
                 style: TextStyle(
                   color: AppColors.lightPrimary,
                   fontSize: 35,
@@ -42,83 +34,87 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                       fontSize: 60,
                     ),
                   ),
-                  const TextSpan(text: 'K'),
+                  TextSpan(text: isMobile ? null : 'K'),
                 ],
               ),
             ),
-            actions: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                child: InkWell(
-                  onTap: () => widget.onNavigatedSelected('home'),
-                  child: Text('Home'),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                child: InkWell(
-                  onTap: () => widget.onNavigatedSelected('about'),
-                  child: Text('About'),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                child: InkWell(
-                  onTap: () => widget.onNavigatedSelected('projects'),
-                  child: Text('Projects'),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                child: InkWell(
-                  onTap: () => widget.onNavigatedSelected('contact'),
-                  child: Text('Contact'),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  launchUrlFunction(state.bio.resume);
-                },
-                child: MouseRegion(
-                  onEnter: (_) => isHovered.value = true,
-                  onExit: (_) => isHovered.value = false,
-                  child: ValueListenableBuilder(
-                    valueListenable: isHovered,
-                    builder: (context, isHover, _) {
-                      return AnimatedContainer(
-                        margin: EdgeInsets.only(right: 50),
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 7,
-                          horizontal: 30,
+            actions:
+                isMobile
+                    ? null
+                    : [
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        child: InkWell(
+                          onTap: () => onNavigatedSelected('home'),
+                          child: Text('Home'),
                         ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color:
-                              isHover
-                                  ? AppColors.primaryTertiary
-                                  : AppColors.lightPrimary,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        child: InkWell(
+                          onTap: () => onNavigatedSelected('about'),
+                          child: Text('About'),
                         ),
-                        transform:
-                            isHover
-                                ? (Matrix4.identity()..scale(1.1, 1.1, 1.1))
-                                : Matrix4.identity(),
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeOut,
-                        child: Text(
-                          'Resume',
-                          style: TextStyle(
-                            color:
-                                isHover
-                                    ? AppColors.lightPrimary
-                                    : AppColors.darkPrimary,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        child: InkWell(
+                          onTap: () => onNavigatedSelected('projects'),
+                          child: Text('Projects'),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        child: InkWell(
+                          onTap: () => onNavigatedSelected('contact'),
+                          child: Text('Contact'),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          launchUrlFunction(state.bio.resume);
+                        },
+                        child: MouseRegion(
+                          onEnter: (_) => isHovered.value = true,
+                          onExit: (_) => isHovered.value = false,
+                          child: ValueListenableBuilder(
+                            valueListenable: isHovered,
+                            builder: (context, isHover, _) {
+                              return AnimatedContainer(
+                                margin: EdgeInsets.only(right: 50),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 7,
+                                  horizontal: 30,
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color:
+                                      isHover
+                                          ? AppColors.primaryTertiary
+                                          : AppColors.lightPrimary,
+                                ),
+                                transform:
+                                    isHover
+                                        ? (Matrix4.identity()
+                                          ..scale(1.1, 1.1, 1.1))
+                                        : Matrix4.identity(),
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeOut,
+                                child: Text(
+                                  'Resume',
+                                  style: TextStyle(
+                                    color:
+                                        isHover
+                                            ? AppColors.lightPrimary
+                                            : AppColors.darkPrimary,
+                                  ),
+                                ),
+                              );
+                            },
                           ),
                         ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-            ],
+                      ),
+                    ],
             backgroundColor: Colors.transparent,
           );
         }
@@ -149,28 +145,28 @@ class _AppBarWidgetState extends State<AppBarWidget> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 8.0),
               child: InkWell(
-                onTap: () => widget.onNavigatedSelected('home'),
+                onTap: () => onNavigatedSelected('home'),
                 child: Text('Home'),
               ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 8.0),
               child: InkWell(
-                onTap: () => widget.onNavigatedSelected('about'),
+                onTap: () => onNavigatedSelected('about'),
                 child: Text('About'),
               ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 8.0),
               child: InkWell(
-                onTap: () => widget.onNavigatedSelected('projects'),
+                onTap: () => onNavigatedSelected('projects'),
                 child: Text('Projects'),
               ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 8.0),
               child: InkWell(
-                onTap: () => widget.onNavigatedSelected('contact'),
+                onTap: () => onNavigatedSelected('contact'),
                 child: Text('Contact'),
               ),
             ),

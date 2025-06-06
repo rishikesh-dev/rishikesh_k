@@ -11,6 +11,7 @@ class GetInTouchSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isMobile = false;
     return BlocBuilder<BioBloc, BioState>(
       builder: (context, state) {
         if (state is BioLoading) {
@@ -124,6 +125,7 @@ class GetInTouchSection extends StatelessWidget {
           );
         }
         if (state is BioLoaded) {
+          isMobile = MediaQuery.of(context).size.width < 800;
           return Column(
             mainAxisSize: MainAxisSize.max,
             children: [
@@ -139,77 +141,54 @@ class GetInTouchSection extends StatelessWidget {
                 style: TextStyle(fontFamily: AppConstants.silkScreen),
               ),
               SizedBox(height: 50),
-              Row(
-                spacing: 50,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  InkWell(
-                    borderRadius: BorderRadius.circular(10),
-                    radius: .9,
-                    onTap: () {
-                      launchUrlFunction(state.bio.instagram);
-                    },
-                    child: SizedBox(
-                      width: 250,
-                      height: 250,
-                      child: Card(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          spacing: 10,
-                          children: [
-                            Icon(FontAwesomeIcons.instagram, size: 80),
-                            Text('📥DM on Instagram'),
-                          ],
-                        ),
+              isMobile
+                  ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ContactCard(
+                        onPressed: () => launchUrlFunction(state.bio.instagram),
+                        icon: FontAwesomeIcons.instagram,
+                        title: '📥DM on Instagram',
                       ),
-                    ),
-                  ),
-                  InkWell(
-                    borderRadius: BorderRadius.circular(10),
-                    radius: .9,
-                    onTap: () {
-                      launchUrlFunction(
-                        'mailto:${state.bio.email}?subject=Project Proposal – Flutter App Development',
-                      );
-                    },
-                    child: SizedBox(
-                      width: 250,
-                      height: 250,
-                      child: Card(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          spacing: 10,
-                          children: [
-                            Icon(FontAwesomeIcons.envelope, size: 80),
-                            Text('📩 Email'),
-                          ],
-                        ),
+                      ContactCard(
+                        onPressed:
+                            () => launchUrlFunction(
+                              'mailto:${state.bio.email}?subject=Project Proposal – Flutter App Development',
+                            ),
+                        icon: FontAwesomeIcons.envelope,
+                        title: '📩E-mail',
                       ),
-                    ),
-                  ),
-                  InkWell(
-                    borderRadius: BorderRadius.circular(10),
-                    radius: .9,
-                    onTap: () {
-                      launchUrlFunction(state.bio.linkedIn);
-                    },
-                    child: SizedBox(
-                      width: 250,
-                      height: 250,
-                      child: Card(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          spacing: 10,
-                          children: [
-                            Icon(FontAwesomeIcons.linkedin, size: 80),
-                            Text('💼 Connect on LinkedIn'),
-                          ],
-                        ),
+                      ContactCard(
+                        onPressed: () => launchUrlFunction(state.bio.linkedIn),
+                        icon: FontAwesomeIcons.linkedin,
+                        title: '💼 Connect on LinkedIn',
                       ),
-                    ),
+                    ],
+                  )
+                  : Row(
+                    spacing: 50,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ContactCard(
+                        onPressed: () => launchUrlFunction(state.bio.instagram),
+                        icon: FontAwesomeIcons.instagram,
+                        title: '📥DM on Instagram',
+                      ),
+                      ContactCard(
+                        onPressed:
+                            () => launchUrlFunction(
+                              'mailto:${state.bio.email}?subject=Project Proposal – Flutter App Development',
+                            ),
+                        icon: FontAwesomeIcons.envelope,
+                        title: '📩E-mail',
+                      ),
+                      ContactCard(
+                        onPressed: () => launchUrlFunction(state.bio.linkedIn),
+                        icon: FontAwesomeIcons.linkedin,
+                        title: '💼 Connect on LinkedIn',
+                      ),
+                    ],
                   ),
-                ],
-              ),
               Padding(
                 padding: const EdgeInsets.only(top: 60.0, bottom: 40),
                 child: Row(
@@ -253,6 +232,37 @@ class GetInTouchSection extends StatelessWidget {
         }
         return SizedBox();
       },
+    );
+  }
+}
+
+class ContactCard extends StatelessWidget {
+  const ContactCard({
+    super.key,
+    this.onPressed,
+    required this.icon,
+    required this.title,
+  });
+  final VoidCallback? onPressed;
+  final IconData icon;
+  final String title;
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(10),
+      radius: .9,
+      onTap: onPressed,
+      child: SizedBox(
+        width: 250,
+        height: 250,
+        child: Card(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            spacing: 10,
+            children: [Icon(icon, size: 80), Text(title)],
+          ),
+        ),
+      ),
     );
   }
 }

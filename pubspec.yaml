@@ -41,6 +41,7 @@ dependencies:
   flutter_bloc: ^9.1.1
   url_launcher: ^6.3.1
   skeletonizer: ^1.4.3
+  sidebarx: ^0.17.1
 
 dev_dependencies:
   flutter_test:
@@ -92,11 +93,7 @@ flutter:
         - asset: assets/fonts/poppins/Poppins-Regular.ttf
         - asset: assets/fonts/poppins/Poppins-Bold.ttf
           weight: 700
-    - family: NotoSherif
-      fonts:
-        - asset: assets/fonts/NotoSerif/NotoSerif-Regular.ttf
-        - asset: assets/fonts/NotoSerif/NotoSerif-Bold.ttf
-          weight: 700
+
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package

@@ -9,14 +9,15 @@ class WhatICanDoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 800;
     return Column(
+      spacing: 50,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           'What I can do',
-          style: TextStyle(fontFamily: AppConstants.silkScreen, fontSize: 25),
+          style: TextStyle(fontFamily: AppConstants.silkScreen, fontSize: 35),
         ),
-        const SizedBox(height: 20),
         BlocBuilder<WhatICanDoBloc, WhatICanDoState>(
           builder: (context, state) {
             if (state is WhatIcanDoLoading) {
@@ -32,27 +33,44 @@ class WhatICanDoSection extends StatelessWidget {
               );
             }
             if (state is WhatIcanDoLoaded) {
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children:
-                    state.getCards.map((card) {
-                      return _buildCard(card.imgUrl, card.title);
-                    }).toList(),
-              );
+              return isMobile
+                  ? Column(
+                    spacing: 40,
+                    children:
+                        state.getCards
+                            .map(
+                              (card) => _buildCard(
+                                card.imgUrl,
+                                card.title,
+                                isMobile: true,
+                              ),
+                            )
+                            .toList(),
+                  )
+                  : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children:
+                        state.getCards.map((card) {
+                          return _buildCard(card.imgUrl, card.title);
+                        }).toList(),
+                  );
             }
             if (state is WhatIcanDoError) {
               return Center(child: Text(state.message));
             }
-            return SizedBox();
+            return SizedBox(child: Text('No Data'));
           },
         ),
       ],
     );
   }
 
-  Widget _buildCard(String imgUrl, String title) {
+  Widget _buildCard(String imgUrl, String title, {bool? isMobile = false}) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20),
+      margin: EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: isMobile! ? 0 : 10,
+      ),
       padding: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),

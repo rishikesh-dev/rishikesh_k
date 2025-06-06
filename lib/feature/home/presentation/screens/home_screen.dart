@@ -3,7 +3,9 @@ import 'package:portfolio_v2/feature/home/presentation/screens/sections/about_me
 import 'package:portfolio_v2/feature/home/presentation/screens/sections/get_in_touch_section.dart';
 import 'package:portfolio_v2/feature/home/presentation/screens/sections/intro_section.dart';
 import 'package:portfolio_v2/feature/home/presentation/screens/sections/project_show_case_section.dart';
+import 'package:portfolio_v2/feature/home/presentation/screens/sections/what_i_can_do_section.dart';
 import 'package:portfolio_v2/feature/home/presentation/widget/app_bar_widget.dart';
+import 'package:portfolio_v2/feature/home/presentation/widget/app_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -28,7 +30,9 @@ scrollToSection(GlobalKey key) {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 1200;
     return Scaffold(
+      drawer: isMobile ? AppDrawer(onNavigatedSelected: (p0) {}) : null,
       extendBody: true,
       body: CustomScrollView(
         slivers: [
@@ -59,7 +63,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     IntroSection(key: _homeSection),
+                    Text(
+                      'About Me',
+                      style: TextStyle(fontFamily: 'SilkScreen', fontSize: 44),
+                    ),
                     AboutMeSection(key: _aboutSection),
+                    WhatICanDoSection(),
                     ProjectShowCaseSection(key: _projectsSection),
                     GetInTouchSection(key: _contactSection),
                   ],
