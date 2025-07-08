@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:portfolio_v2/core/constants/constants.dart';
 import 'package:portfolio_v2/feature/home/presentation/blocs/what_i_can_do/bloc/what_i_can_do_bloc.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 class WhatICanDoSection extends StatelessWidget {
   const WhatICanDoSection({super.key});
@@ -21,16 +20,7 @@ class WhatICanDoSection extends StatelessWidget {
         BlocBuilder<WhatICanDoBloc, WhatICanDoState>(
           builder: (context, state) {
             if (state is WhatIcanDoLoading) {
-              return Skeletonizer(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _buildCardSkeleton(),
-                    _buildCardSkeleton(),
-                    _buildCardSkeleton(),
-                  ],
-                ),
-              );
+              return CircularProgressIndicator();
             }
             if (state is WhatIcanDoLoaded) {
               return isMobile
@@ -82,25 +72,6 @@ class WhatICanDoSection extends StatelessWidget {
           Image.network(imgUrl, height: 200, width: 200, fit: BoxFit.cover),
           SizedBox(height: 10),
           Text(title),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCardSkeleton() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20),
-      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
-      width: 250,
-      decoration: BoxDecoration(
-        color: Colors.grey.shade900,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        children: [
-          Container(height: 150, width: 150, color: Colors.grey.shade800),
-          const SizedBox(height: 10),
-          Container(height: 20, width: 100, color: Colors.grey.shade800),
         ],
       ),
     );

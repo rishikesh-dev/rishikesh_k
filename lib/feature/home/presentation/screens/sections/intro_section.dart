@@ -6,7 +6,6 @@ import 'package:portfolio_v2/core/micro_functions/lauch_url.dart';
 import 'package:portfolio_v2/core/theme/colors.dart';
 import 'package:portfolio_v2/feature/home/domain/entity/bio_entity.dart';
 import 'package:portfolio_v2/feature/home/presentation/blocs/bio_bloc/bloc/bio_bloc.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 class IntroSection extends StatelessWidget {
   const IntroSection({super.key});
@@ -18,9 +17,7 @@ class IntroSection extends StatelessWidget {
       child: BlocBuilder<BioBloc, BioState>(
         builder: (context, state) {
           if (state is BioLoading) {
-            return Skeletonizer(
-              child: _buildIntroContent(context, isLoading: true),
-            );
+            return CircularProgressIndicator();
           } else if (state is BioLoaded) {
             return LayoutBuilder(
               builder: (context, constraints) {
