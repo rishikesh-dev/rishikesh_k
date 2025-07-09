@@ -16,24 +16,30 @@ class AboutMeSection extends StatelessWidget {
           return CircularProgressIndicator();
         }
         if (state is BioLoaded) {
-          return LayoutBuilder(
-            builder: (context, constraints) {
-              if (constraints.maxWidth >= 1200) {
-                return _buildIntroContent(
-                  context,
-                  bio: state.bio,
-                  isMobile: false,
-                );
-              } else if (constraints.maxWidth > 800) {
-                return _buildIntroContent(context, bio: state.bio, isTab: true);
-              } else {
-                return _buildIntroContent(
-                  context,
-                  bio: state.bio,
-                  isMobile: true,
-                );
-              }
-            },
+          return SingleChildScrollView(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                if (constraints.maxWidth >= 1200) {
+                  return _buildIntroContent(
+                    context,
+                    bio: state.bio,
+                    isMobile: false,
+                  );
+                } else if (constraints.maxWidth > 800) {
+                  return _buildIntroContent(
+                    context,
+                    bio: state.bio,
+                    isTab: true,
+                  );
+                } else {
+                  return _buildIntroContent(
+                    context,
+                    bio: state.bio,
+                    isMobile: true,
+                  );
+                }
+              },
+            ),
           );
         }
         if (state is BioError) {
