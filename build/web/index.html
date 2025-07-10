@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <base href="/portfolio/" />
+    <base href="/" />
     <meta charset="UTF-8" />
 
     <meta content="IE=Edge" http-equiv="X-UA-Compatible" />
@@ -22,29 +22,14 @@
 
     <link rel="manifest" href="manifest.json" />
   </head>
-  <body data-flutter-renderer="html">
+  <body>
     <script>
-      {
-        {
-          flutter_js;
-        }
-      }
-      {
-        {
-          flutter_build_config;
-        }
-      }
-
-      // TODO: Replace this with your own code to determine which renderer to use.
-      const useCanvasKit = true;
-
-      const config = {
-        renderer: useCanvasKit ? "canvaskit" : "skwasm",
+      console.log("Starting Flutter Web App");
+      window.onerror = function (message, source, lineno, colno, error) {
+        console.error("Global JS Error:", message, "at", source, ":", lineno);
       };
-      _flutter.loader.load({
-        config: config,
-      });
     </script>
+
     <script src="flutter_bootstrap.js" async></script>
   </body>
 </html>

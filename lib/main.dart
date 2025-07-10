@@ -65,12 +65,7 @@ void main() async {
 
 class AppRouter {
   static final goRouter = GoRouter(
-    routes: [
-      GoRoute(
-        path: '/',
-        builder: (context, state) => Scaffold(backgroundColor: Colors.black),
-      ),
-    ],
+    routes: [GoRoute(path: '/', builder: (context, state) => HomeScreen())],
   );
 }
 
